@@ -1,1 +1,117 @@
+////////solving 56 no ques: Write a program to find the 100!///////
+
+#include <bits/stdc++.h>
+using namespace std;
+~~~~
+int main() { 
+               int t;
+               cin>>t;
+               while(t--)
+               {
+                // read a number
+                int n;
+		cin>>n;
+                //create a array for 200 digits
+		int a[200];
+		a[0]=1;
+		int digits=1;
+                // create a for loop for multiply 1 upto n.
+		for(int i=1;i<=n;i++)
+		{
+			// temporary variable which gonna carry all value
+                        int temp=0;
+
+			// multiplying every digits in our initial value by the number i.
+                        for(int j=0;j<digits;j++)
+			{
+				int x=i*a[j]+temp;
+                                //Storing the last digit
+				a[j]=x%10;
+                                //for carray over 
+				temp=x/10;
+			}
+                        //if carry leftover
+			while(temp>0)
+			{
+ 				// add to the array
+                                a[digits++]=temp%10;
+				temp/=10;
+			}
+		}
+                //print the array
+		for(int i=digits-1;i>=0;i--)
+		{
+			cout<<a[i];
+		}
+		cout<<endl;
+	}
+	
+	return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////solving 57 no ques: Write a program to determine the value of the nth Fibonacci number Fn where Fn = Fn-1+Fn-2 and F1 F2 =1 and n<=500.
+#include <iostream>
+#include <vector>
+
+void addLargeNumbers(const std::vector<int>& a, const std::vector<int>& b, std::vector<int>& result) {
+    result.clear();
+    int carry = 0;
+    size_t size = std::max(a.size(), b.size());
+    
+    for (size_t i = 0; i < size || carry; ++i) {
+        int sum = carry;
+        if (i < a.size()) sum += a[i];
+        if (i < b.size()) sum += b[i];
+        result.push_back(sum % 10);
+        carry = sum / 10;
+    }
+}
+
+void printLargeNumber(const std::vector<int>& number) {
+    for (auto it = number.rbegin(); it != number.rend(); ++it) {
+        std::cout << *it;
+    }
+    std::cout << std::endl;
+}
+
+void calculateFibonacci(int n, std::vector<int>& result) {
+    if (n == 1 || n == 2) {
+        result = {1};
+        return;
+    }
+
+    std::vector<int> fib1 = {1};
+    std::vector<int> fib2 = {1};
+    std::vector<int> fibN;
+
+    for (int i = 3; i <= n; ++i) {
+        addLargeNumbers(fib1, fib2, fibN);
+        fib1 = fib2;
+        fib2 = fibN;
+    }
+
+    result = fibN;
+}
+
+int main() {
+    int n;
+    std::cout << "Enter the value of n (<= 500): ";
+    std::cin >> n;
+
+    if (n < 1 || n > 500) {
+        std::cerr << "n should be in the range 1 to 500." << std::endl;
+        return 1;
+    }
+
+    std::vector<int> result;
+    calculateFibonacci(n, result);
+
+    std::cout << "F(" << n << ") = ";
+    printLargeNumber(result);
+
+    return 0;
+}
+
+
 
